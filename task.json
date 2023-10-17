@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "isCompleted": false,
+    "descripcion": "Rendir laboralmente en el módulo de comunicaciones"
+  },
+  {
+    "id": 3,
+    "isCompleted": false,
+    "descripcion": "Rendir laboralmente en el módulo de comunicaciones"
+  },
+  {
+    "id": 4,
+    "isCompleted": false,
+    "descripcion": "Rendir laboralmente en el módulo de comunicaciones"
+  },
+  {
+    "id": 5,
+    "isCompleted": false,
+    "descripcion": "Rendir laboralmente en el módulo de comunicaciones"
+  }
+]
