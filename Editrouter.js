@@ -4,7 +4,13 @@ const fs = require('fs');
 
 const list = JSON.parse(fs.readFileSync('task.json', 'utf8'));//lectura de archivo principal task.json
 
+
+
+
+////edicion de lista.///////////////////////////////////////////////////////////////////////////////////////////////////////
 // Route to create a task, using a the body of the request   {    "id": 4,    "isCompleted": false,    "descripcion": "Rendir laboralmente en el módulo de comunicaciones"  }
+
+
 listEditRouter.post("/create", (req, res) => {
   // Implement logic to create a new task
   const newObject = req.body ; // Add the new object to the lis
@@ -50,5 +56,49 @@ listEditRouter.put("/update/:id", (req, res) => {
 // If the task wasn't found, return an error
 res.send(`Task with ID ${taskid}  not updated`);
 });
+
+////MIDLEWARE////////////////////////////
+
+// Middleware to handle empty request bodies
+const handleEmptyBody = (req, res, next) => {
+  if (req.method === 'POST' || req.method === 'PUT') {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      res.status(400).send('Empty request body');
+    }
+  }
+  next();
+};
+
+// Middleware to handle invalid or missing attributes for tasks
+const handleInvalidAttributes = (req, res, next) => {
+  if (req.method === 'POST' || req.method === 'PUT') {
+    const requiredAttributes = ['id', 'isCompleted', 'description']; // Replace with your required attributes
+    const bodyKeys = Object.keys(req.body);
+    if (!requiredAttributes.every(attr => bodyKeys.includes(attr))) {
+      res.status(400).send('Invalid or missing attributes in the request');
+    }
+  }
+  next();
+};
+
+// Apply the middlewares to the router
+listEditRouter.use(handleEmptyBody, handleInvalidAttributes);
+
+// Middleware to validate HTTP methods
+const validateHttpMethod = (req, res, next) => {
+  if (!['GET', 'POST', 'PUT', 'DELETE'].includes(req.method)) {
+    res.status(400).send('Invalid HTTP method');
+  } else {
+    next();
+  }
+};
+
+// Apply the middleware at the application level
+app.use(validateHttpMethod);
+
+
+// Apply the middleware to your list-view-router
+listViewRouter.use(validateParameters);
+
 
 module.exports = listEditRouter;

@@ -13,4 +13,18 @@ listViewRouter.get("/incomplete", (req, res) => {
   res.send("List of incomplete tasks");
 });
 
+///Middleware to hanlde defectous request 
+router.use("/:param", (req, res, next) => {
+  const param = req.params.param;
+
+  // Define your validation logic here, for example:
+  if (!isValidParam(param)) {
+    return res.status(400).send('Invalid parameter');
+  }
+
+  next();
+});
+
+
+
 module.exports = listViewRouter;
