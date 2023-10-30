@@ -5,16 +5,11 @@ const port = 3001;
 app.use(express.json());
 const editroute=require("./Editrouter.js");
 const viewroute=require("./Viewrouter.js");
+const authroute = require("./auth.js");
 
-
-
+app.use(authroute);
 app.use(editroute);
 app.use(viewroute);
-
-
-
-
-
 
 app.get('/', (req, res) => {
 
@@ -32,11 +27,6 @@ app.get('/', (req, res) => {
   });
 
 });
-
-
-
-
-
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
