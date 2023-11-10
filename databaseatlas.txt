@@ -1,0 +1,90 @@
+Mongoose
+
+Mongoose es una biblioteca de modelado de objetos para MongoDB y Node.js que proporciona una capa de abstracción sobre la base de datos MongoDB. Facilita la definición de esquemas, la creación de modelos y la interacción con la base de datos MongoDB a través de operaciones como la inserción, actualización, consulta y eliminación de documentos.
+Conexión a MongoDB con Mongoose 🧑‍💻👩‍💻
+
+Para comenzar a utilizar Mongoose, primero debes instalarlo en tu proyecto Node.js. Puedes hacerlo 
+utilizando npm:
+
+npm install mongoose
+
+Define la cadena de conexión a tu base de datos MongoDB. Puedes usar una cadena de conexión local 
+o una de MongoDB Atlas. La cadena de conexión debe contener información sobre el servidor, 
+puerto, nombre de la base de datos y credenciales si es necesario.
+
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb://localhost:27017/mi_base_de_datos'; // Reemplaza con tu 
+propia cadena de conexión
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Conexión exitosa a MongoDB');
+  } catch (error) {
+    console.error('Error de conexión a MongoDB:', error);
+  }
+};
+
+Definición de un Esquema (Schema) 🗂️
+
+Un esquema en Mongoose define la estructura de los documentos que se almacenarán en la base de datos. 
+Puedes especificar los campos, tipos de datos y restricciones en un esquema. Aquí hay un ejemplo de 
+cómo definir un esquema:
+
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+
+const usuarioSchema = new Schema({
+  nombre: {
+    type: String,
+    required: true, // El campo nombre es obligatorio
+  },
+  edad: {
+    type: Number,
+    required: true, // El campo edad es obligatorio
+  },
+  correo: String,
+});
+
+// Crear un modelo basado en el esquema
+const Usuario = mongoose.model('Usuario', usuarioSchema);
+
+module.exports = Usuario;
+
+El esquema llamado usuarioSchema que tiene tres campos: nombre, edad y correo. Hemos especificado que 
+tanto nombre como edad son campos requeridos mediante la propiedad required: true.
+Creando un Modelo 🧩
+
+Una vez que has definido un esquema, puedes crear un modelo basado en ese esquema. El modelo te
+ permite interactuar con la base de datos MongoDB utilizando los métodos proporcionados por Mongoose. 
+ Aquí está cómo crear un modelo basado en el esquema anterior:
+
+const Usuario = require('./usuarioSchema'); // Importar el esquema
+
+// Crear una instancia de Usuario
+const nuevoUsuario = new Usuario({
+  nombre: 'Juan Pérez',
+  edad: 30,
+  correo: 'juan@example.com',
+});
+
+// Guardar el nuevo usuario en la base de datos
+nuevoUsuario.save((err) => {
+  if (err) {
+    console.error('Error al guardar el usuario:', err);
+  } else {
+    console.log('Usuario guardado con éxito');
+  }
+});
+
+En este ejemplo, hemos importado el esquema usuarioSchema y hemos creado una instancia de Usuario 
+con datos válidos. Luego, utilizamos el método save() para guardar este nuevo 
+usuario en la base de datos MongoDB.
+
+¿Estás interesado en profundizar tus conocimientos sobre esta biblioteca? 
+¡Te proporcionamos el enlace a la documentación para que puedas explorar más! mongoose
+//.then((db)=>{ database=db;console.log("Connected to MongoDB") }).catch(console.error); resuelvo mongodb
